@@ -31,7 +31,7 @@ in both pipeline and joint settings, and presenting new opportunities in the dev
 @inproceedings{more2018,
  author  = {More, Amir and \c{C}etino\u{g}lu, \"{O}zlem and  \c{C}\"{o}ltekin, \c{C}a\u{g}r{\i} and  Habash, Nizar and  Sagot, Benoît and  Seddah, Djamé and  Taji, Dima, and  Tsarfaty, Reut},
  year  = {2018},
- title  = {{CoNLL-UL}: Universal Morphological Lattices for {U}niversal {D}ependency Parsing},
+ title  = { {CoNLL-UL}: Universal Morphological Lattices for {U}niversal {D}ependency Parsing},
  booktitle  = {Proceedings of the Eleventh International Conference on Language Resources and Evaluation ({LREC'18})},
 }
 ```
