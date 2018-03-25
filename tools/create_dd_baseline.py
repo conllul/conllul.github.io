@@ -77,24 +77,22 @@ def yap_ma(out_dir, dd, filetype, filename, lattice):
     logfile.close()
 
 
-def process_treebank(o, conllulorg, r):
+def process_treebank(o, conllulorg, r, file_prefix):
     def file_name_render(prefix, split, ma_name=None, directory=None):
         ma_str = ("%s." % ma_name) if ma_name else ""
         dir_str = ("%s/" % directory)  if directory else ""
         file_name = "%s%s-ud-%s.%sconllu" % (dir_str, prefix, split, ma_str)
         return file_name
 
-    file_prefix = UD_TB_LOOKUP.get(r.name[3:], None)
-    if not file_prefix:
-        return False
-    train_file = file_name_render(file_prefix, "train", directory=r.name)
-    dev_file = file_name_render(file_prefix, "dev", directory=r.name)
-    test_file = file_name_render(file_prefix, "test", directory=r.name)
+    ul_repo = r.name.replace('UD_','UL_')
+    train_file = file_name_render(file_prefix, "train", directory=ul_repo)
+    dev_file = file_name_render(file_prefix, "dev", directory=ul_repo)
+    test_file = file_name_render(file_prefix, "test", directory=ul_repo)
     splits = [train_file, dev_file, test_file]
-    os.mkdir(r.name)
+    os.mkdir(ul_repo)
     print "\tGetting treebank files"
     for split in splits:
-        repo_file = split.replace("%s/" % r.name, "")
+        repo_file = split.replace("%s/" % ul_repo, "")
         f_data = get_blob_wrapper(r, repo_file)
         if f_data:
             f = open(split, 'w')
@@ -103,22 +101,31 @@ def process_treebank(o, conllulorg, r):
         else:
             print "not found, skipping treebank"
             return
-    dict_file = "%s/%s.json" % (r.name, file_prefix)
-    yap_malearn(r.name, train_file, dict_file)
+    dict_file = "%s/%s.json" % (ul_repo, file_prefix)
+    yap_malearn(ul_repo, train_file, dict_file)
     print "\tAnalyzing treebank files"
-    yap_ma(r.name, dict_file, 'train', train_file, file_name_render(file_prefix, "train", "baseline", directory=r.name))
-    yap_ma(r.name, dict_file, 'dev', dev_file, file_name_render(file_prefix, "dev", "baseline", directory=r.name))
-    yap_ma(r.name, dict_file, 'test', test_file, file_name_render(file_prefix, "test", "baseline", directory=r.name))
+    yap_ma(ul_repo, dict_file, 'train', train_file, file_name_render(file_prefix, "train", "baseline", directory=ul_repo) + 'l')
+    yap_ma(ul_repo, dict_file, 'dev', dev_file, file_name_render(file_prefix, "dev", "baseline", directory=ul_repo) + 'l')
+    yap_ma(ul_repo, dict_file, 'test', test_file, file_name_render(file_prefix, "test", "baseline", directory=ul_repo) + 'l')
     try:
-        conllulorg.get_repo(r.name)
+        conllulorg.get_repo(ul_repo)
     except Exception as e:
         try:
-            conllulorg.create_repo(r.name, private=False, homepage='README.md')
-            print "\tCreate repository"
+            conllulorg.create_repo(ul_repo, private=False, homepage='README.md')
+            print "\tCreate repository %s" % ul_repo
         except Exception as e2:
-            print "Failed creating non-existent repo for %s" % r.name
+            print "Failed creating non-existent repo %s for %s" % (ul_repo, r.name)
     return True
 
+
+def deduce_lcode(repo):
+    dir_contents = repo.get_dir_contents('/')
+    for f in dir_contents:
+        if f.name.endswith('.conllu'):
+            repo_name = f.name
+            repo_split = repo_name.split('-')
+            return repo_split[0]
+    return False
 
 def make_baseline():
     print 'Getting github handle'
@@ -127,12 +134,18 @@ def make_baseline():
     for repo in get_ud_repos(o):
         sys.stdout.flush()
         if repo_has_text(repo):
-            if repo.name[3:] not in UD_TB_LOOKUP:
-                print "Skipping UD repository %s (repo not in lcodes.json)" % (repo.name, )
+            if os.path.exists(repo.name.replace('UD_', 'UL_')):
+                print "Skipping already created UD repository %s" % (repo.name, )
                 continue
+            lcode = UD_TB_LOOKUP.get(repo.name[3:], None) 
+            if not lcode:
+                lcode = deduce_lcode(repo)
+                if not lcode:
+                    print "Skipping UD repository %s (repo not in lcodes.json and no conllu file found)" % (repo.name, )
+                    continue
             print "Processing UD repository %s" % (repo.name, )
             try:
-                if not process_treebank(o, conllulo, repo):
+                if not process_treebank(o, conllulo, repo, lcode):
                     print "Failed %s" % repo.name
             except Exception as e:
                 print "Failed %s" % repo.name
