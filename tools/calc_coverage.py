@@ -82,7 +82,12 @@ def conllu_as_spellouts(raw_sent):
             cur_spellout.append(line)
             remaining_segments -= 1
             continue
+        if cur_spellout:
+            spellouts.append(cur_spellout)
+            cur_spellout = list()
         spellouts.append([line])
+        remaining_segments = 0
+        cur_spellout = list()
     if cur_spellout:
         spellouts.append(cur_spellout)
     return spellouts
@@ -93,34 +98,39 @@ def isoov(lattice):
 
 
 extractors = [lambda v:[v[1]], lambda v:[v[1], v[3]], lambda v:[v[1], v[3], v[5]]]
-def calc_coverage(spellout_reader, lattice_reader):
+def calc_coverage(spellout_reader, lattice_reader, limit=0):
     spellout_file = depread(spellout_reader)
     lattice_file = depread(lattice_reader)
     total = 0
     oovs = 0
     successes = [0, 0, 0]
     oovsuccesses = [0, 0, 0]
+    sents = 0
     for spellout_sent, lattice_sent in zip(spellout_file, lattice_file):
-        cur_lat = 0
+        sents += 1
+        if limit and sents > limit:
+            break
         conllu_d = list(conllu_as_spellouts(spellout_sent))
         conllul_d = list(conllul_as_lattices(lattice_sent))
         for spellout, lattice in zip(conllu_d, conllul_d):
-            cur_lat += 1
             total += 1
             oov = isoov(lattice)
             oovs += 1 if oov else 0
             for i, ex in enumerate(extractors):
                 result = calc_lattice_coverage(spellout, lattice, ex)
+                # print "%s " % result, 
                 successes[i] += result
                 if oov:
                     oovsuccesses[i] += result
+            # print ""
     return successes, total, oovsuccesses, oovs
 
 
 def main():
     conllu = sys.argv[1]
     conllul = sys.argv[2]
-    print calc_coverage(open(conllu), bz2.BZ2File(conllul))
+    limit = 0 if len(sys.argv) < 4 else int(sys.argv[3])
+    print calc_coverage(open(conllu), bz2.BZ2File(conllul), limit)
 
 
 if __name__ == "__main__":
