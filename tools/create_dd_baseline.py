@@ -5,6 +5,7 @@ import base64
 import os
 import sys
 import json
+import operator
 import subprocess
 
 UD_ORG = 'universaldependencies'
@@ -28,14 +29,14 @@ def get_file_wrapper(r, filename=None):
     try:
         if not filename:
             filename = "README.md"
-        return r.get_file_contents(filename)
+        return r.get_file_contents(filename, ref='dev')
     except Exception as e:
         return False
 
 
 def get_blob_wrapper(r, filename):
     try:
-        dir_contents = r.get_dir_contents('/')
+        dir_contents = r.get_dir_contents('/', ref='dev')
         for f in dir_contents:
             if f.name == filename:
                 return r.get_git_blob(f.sha)
@@ -43,6 +44,19 @@ def get_blob_wrapper(r, filename):
         return False
     except Exception as e:
         print "%s failed to to get blob %s: %s" % (r.name, filename, str(e))
+        return False
+
+
+def compare_master_dev(r, filename):
+    try:
+        repo_file = filename.split('/')[1]
+        print("\t\tGetting %s from %s ref %s" % (repo_file, r.name, 'master'))
+        master = r.get_contents(repo_file, ref='master')
+        print("\t\tGetting %s from %s ref %s" % (repo_file, r.name, 'dev'))
+        dev = r.get_contents(repo_file, ref='dev')
+        return master.sha == dev.sha
+    except Exception as e:
+        print("\t\tException caught comparing master/dev for repo %s: %s" % (r.name, str(e)))
         return False
 
 
@@ -89,7 +103,9 @@ def process_treebank(o, conllulorg, r, file_prefix):
     dev_file = file_name_render(file_prefix, "dev", directory=ul_repo)
     test_file = file_name_render(file_prefix, "test", directory=ul_repo)
     splits = [train_file, dev_file, test_file]
-    os.mkdir(ul_repo)
+    if not os.path.exists(ul_repo):
+        print "\tCreating directory %s" % ul_repo
+        os.mkdir(ul_repo)
     print "\tGetting treebank files"
     for split in splits:
         repo_file = split.replace("%s/" % ul_repo, "")
@@ -101,7 +117,7 @@ def process_treebank(o, conllulorg, r, file_prefix):
         else:
             print "not found, skipping treebank"
             return
-    dict_file = "%s/%s.json" % (ul_repo, file_prefix)
+    dict_file = "%s-dd/%s.json" % (ul_repo, file_prefix)
     yap_malearn(ul_repo, train_file, dict_file)
     print "\tAnalyzing treebank files"
     yap_ma(ul_repo, dict_file, 'train', train_file, file_name_render(file_prefix, "train", "baseline", directory=ul_repo) + 'l')
@@ -111,7 +127,7 @@ def process_treebank(o, conllulorg, r, file_prefix):
         conllulorg.get_repo(ul_repo)
     except Exception as e:
         try:
-            conllulorg.create_repo(ul_repo, private=False, homepage='README.md')
+            conllulorg.create_repo(ul_repo, private=False)
             print "\tCreate repository %s" % ul_repo
         except Exception as e2:
             print "Failed creating non-existent repo %s for %s" % (ul_repo, r.name)
@@ -134,9 +150,9 @@ def make_baseline():
     for repo in get_ud_repos(o):
         sys.stdout.flush()
         if repo_has_text(repo):
-            if os.path.exists(repo.name.replace('UD_', 'UL_')):
-                print "Skipping already created UD repository %s" % (repo.name, )
-                continue
+            # if os.path.exists(repo.name.replace('UD_', 'UL_')):
+            #     print "Skipping already created UD repository %s" % (repo.name, )
+            #     continue
             lcode = UD_TB_LOOKUP.get(repo.name[3:], None) 
             if not lcode:
                 lcode = deduce_lcode(repo)

@@ -12,8 +12,8 @@ for lexicon in `find . -name 'UDLex*conllul'`; do
         file_prefix=`echo $tb_file | cut -d '.' -f 1`
         file_split=`echo $file_prefix | cut -d '-' -f 3`
         printf "\tRunning lexicon-based MA on file %s\n" "$tb_file"
-        echo $YAP ma -conllu $tb_file -dict $dict_file.json -udlex $lex_file -format ud -out $file_prefix.$lex_name.conllul ">" $file_split-ma.$lex_name.log
-        $YAP ma -conllu $tb_file -dict $dict_file.json -udlex $lex_file -format ud -out $file_prefix.$lex_name.conllul 2> $file_split-ma.$lex_name.log
+        echo $YAP ma -conllu $tb_file -dict $dict_file-dd.json -udlex $lex_file -format ud -out $file_prefix.$lex_name.conllul ">" $file_split-ma.$lex_name.log
+        $YAP ma -conllu $tb_file -dict $dict_file-dd.json -udlex $lex_file -format ud -out $file_prefix.$lex_name.conllul 2> $file_split-ma.$lex_name.log
     done
     popd > /dev/null
 done
