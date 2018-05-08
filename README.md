@@ -47,7 +47,7 @@ The text of all analyses are bound to the licenses of their respective UD treeba
 | Catalan             | [AnCora](https://github.com/conllul/UL_Catalan-AnCora)                                                                      |
 | Chinese             | [GSD](https://github.com/conllul/UL_Chinese-GSD)                                                                            |
 | Croatian            | [SET](https://github.com/conllul/UL_Croatian-SET)                                                                           |
-| Czech               | [CAC](https://github.com/conllul/UL_Czech-CAC)[PDT](https://github.com/conllul/UL_Czech-PDT)                                |
+| Czech               | [CAC](https://github.com/conllul/UL_Czech-CAC), [PDT](https://github.com/conllul/UL_Czech-PDT)                                |
 | Danish              | [DDT](https://github.com/conllul/UL_Danish-DDT)                                                                             |
 | Dutch               | [Alpino](https://github.com/conllul/UL_Dutch-Alpino), [LassySmall](https://github.com/conllul/UL_Dutch-LassySmall)          |
 | English             | [EWT](https://github.com/conllul/UL_English-EWT), [LinES](https://github.com/conllul/UL_English-LinES)                      |
