@@ -38,7 +38,7 @@ The text of all analyses are bound to the licenses of their respective UD treeba
 | UD Language         | Morphologically Analyzed Treebanks                                                                                          |
 |---------------------|-----------------------------------------------------------------------------------------------------------------------------|
 | Afrikaans           | [AfriBooms](https://github.com/conllul/UL_Afrikaans-AfriBooms)                                                              |
-| Ancient_Greek       | [Perseus](https://github.com/conllul/UL_Ancient_Greek-Perseus), [PROIEL](https://github.com/conllul/UL_Ancient_Greek-PROIEL)|
+| Ancient Greek       | [Perseus](https://github.com/conllul/UL_Ancient_Greek-Perseus), [PROIEL](https://github.com/conllul/UL_Ancient_Greek-PROIEL)|
 | Arabic              | [PADT](https://github.com/conllul/UL_Arabic-PADT)                                                                           |
 | Armenian            | [ArmTDP](https://github.com/conllul/UL_Armenian-ArmTDP)                                                                     |
 | Basque              | [BDT](https://github.com/conllul/UL_Basque-BDT)                                                                             |
@@ -70,10 +70,10 @@ The text of all analyses are bound to the licenses of their respective UD treeba
 | Kurmanji            | [MG](https://github.com/conllul/UL_Kurmanji-MG)                                                                             |
 | Latin               | [ITTB](https://github.com/conllul/UL_Latin-ITTB), [PROIEL](https://github.com/conllul/UL_Latin-PROIEL)                      |
 | Latvian             | [LVTB](https://github.com/conllul/UL_Latvian-LVTB)                                                                          |
-| North_Sami          | [Giella](https://github.com/conllul/UL_North_Sami-Giella)                                                                   |
+| North Sami          | [Giella](https://github.com/conllul/UL_North_Sami-Giella)                                                                   |
 | Norwegian           | [Bokmaal](https://github.com/conllul/UL_Norwegian-Bokmaal), [NynorskLIA](https://github.com/conllul/UL_Norwegian-NynorskLIA)|
-| Old_Church_Slavonic | [PROIEL](https://github.com/conllul/UL_Old_Church_Slavonic-PROIEL)                                                          |
-| Old_French          | [SRCMF](https://github.com/conllul/UL_Old_French-SRCMF)                                                                     |
+| Old Church Slavonic | [PROIEL](https://github.com/conllul/UL_Old_Church_Slavonic-PROIEL)                                                          |
+| Old French          | [SRCMF](https://github.com/conllul/UL_Old_French-SRCMF)                                                                     |
 | Persian             | [Seraji](https://github.com/conllul/UL_Persian-Seraji)                                                                      |
 | Polish              | [LFG](https://github.com/conllul/UL_Polish-LFG)                                                                             |
 | Polish              | [SZ](https://github.com/conllul/UL_Polish-SZ)                                                                               |
@@ -87,7 +87,7 @@ The text of all analyses are bound to the licenses of their respective UD treeba
 | Swedish             | [LinES](https://github.com/conllul/UL_Swedish-LinES), [Talbanken](https://github.com/conllul/UL_Swedish-Talbanken)          |
 | Turkish             | [IMST](https://github.com/conllul/UL_Turkish-IMST)                                                                          |
 | Ukrainian           | [IU](https://github.com/conllul/UL_Ukrainian-IU)                                                                            |
-| Upper_Sorbian       | [UFAL](https://github.com/conllul/UL_Upper_Sorbian-UFAL)                                                                    |
+| Upper Sorbian       | [UFAL](https://github.com/conllul/UL_Upper_Sorbian-UFAL)                                                                    |
 | Urdu                | [UDTB](https://github.com/conllul/UL_Urdu-UDTB)                                                                             |
 | Uyghur              | [UDT](https://github.com/conllul/UL_Uyghur-UDT)                                                                             |
 | Vietnamese          | [VTB](https://github.com/conllul/UL_Vietnamese-VTB)                                                                         |
