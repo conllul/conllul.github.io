@@ -1,20 +1,21 @@
 import os
 import sys
 
-from util import MA
+from util import MA, register
 
 
+@register("tr", "trmorph")
 class TRMorph(MA):
     CITATIONS = u'Çağrı Çöltekin (2010). A Freely Available Morphological Analyzer for Turkish In Proceedings of the 7th International Conference on Language Resources and Evaluation (LREC2010)'
 
     def __init__(self, **kwargs):
-        super(TRMorph).__init__(**kwargs)
+        super().__init__(**kwargs)
         sys.path.append(os.getcwd() + '/TRmorph/tools')
 
 
-    def name(self):
-        return "TRMorph2"
-
+    @classmethod
+    def name(cls):
+        return "trmorph"
 
     def description(self):
         return "TRMorph 2.0, an open source finite-state morphological analyzer for Turkish"

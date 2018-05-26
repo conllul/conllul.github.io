@@ -31,6 +31,7 @@ RUN make
 
 # add data-driven lexicons
 ADD *json /home/gopath/src/yap/data/
+ADD UDLex* /home/gopath/src/yap/data/
 
 # update yap
 WORKDIR /home/gopath/src/yap
@@ -38,8 +39,12 @@ RUN git pull
 RUN go build .
 
 # get dispatcher
+ENV YAP=/home/gopath/src/yap LEX_DIR=/home/gopath/src/yap/data DISPATCH=/home
 ADD dispatch/*.py /home/
+ADD dispatch/*csv /home/
 
 # leave a mount dir
 RUN mkdir /local
 WORKDIR /local
+
+ENTRYPOINT ["/home/conllul_dispatch.py"]
