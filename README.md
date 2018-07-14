@@ -27,7 +27,7 @@ docker run -v $(pwd):/local habeanf/conllul:latest <lang> <input> <output>
 ```
 Input files should have tokens separated by newlines, with sentences separated by another newline. For a list options run `docker run habeanf/conllul:latest -h`
 
-We provide both the image and associated open source Dockerfile to the community, such that researchers with lexical resources may add their own. It is especially easy to add lexicons, as the docker provides “plug and play” functionality - just copy your UD lexicon into the right directory and the system will take care of the rest. You may also add your own morphological analyzer; we’d be happy to guide you through the process.
+We provide both the image and [associated open source Dockerfile](https://github.com/conllul/dockerimage) to the community, such that researchers with lexical resources may add their own. It is especially easy to add lexicons, as the docker provides “plug and play” functionality - just copy your UD lexicon into the right directory and the system will take care of the rest. You may also add your own morphological analyzer; we’d be happy to guide you through the process.
 
 
 ## Morphological Analyzers
