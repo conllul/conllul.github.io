@@ -18,6 +18,18 @@ of typologically different languages. The resources we provide are harmonized wi
 annotation in their respective UD v2 treebanks, thus enabling research on universal models for morphological and syntactic parsing,
 in both pipeline and joint settings, and presenting new opportunities in the development of UD resources for low-resource languages.
 
+## CoNLL-UL Docker Image
+Building on these UD-compatible lexical resources, we are making available a Docker image that contains morphological analyzers for Hebrew and Turkish, lexicons for 38 languages, and data-driven lexicons for all UD v2.2 treebanks participating in the 2018 shared task. Soon, we will be adding an Arabic morphological analyzer as well.
+
+To use the docker image, first [install docker](https://docs.docker.com/install/), and then run:
+```bash
+docker run -v $(pwd):/local habeanf/conllul:latest <lang> <input> <output>
+```
+Input files should have tokens separated by newlines, with sentences separated by another newline. For a list options run `docker run habeanf/conllul:latest -h`
+
+We provide both the image and associated open source Dockerfile to the community, such that researchers with lexical resources may add their own. It is especially easy to add lexicons, as the docker provides “plug and play” functionality - just copy your UD lexicon into the right directory and the system will take care of the rest. You may also add your own morphological analyzer; we’d be happy to guide you through the process.
+
+
 ## Morphological Analyzers
 * Arabic [Calima-star](https://camel.abudhabi.nyu.edu/calima-star/)
 * Hebrew [yap](https://github.com/habeanf/yap)
